@@ -47,7 +47,11 @@ module Brisk
           :expire_after => 5.years,
           :secret       => ENV['SESSION_SECRET']
     end
-
+    
+    configure do
+      set :protection, except: [:frame_options]
+    end
+    
     configure do
       Mail.defaults do
         delivery_method :file
