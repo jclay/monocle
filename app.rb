@@ -23,6 +23,7 @@ require 'app/models'
 require 'app/helpers'
 require 'app/extensions'
 require 'app/routes'
+require 'mail'
 
 module Brisk
   class App < Sinatra::Application
@@ -50,10 +51,14 @@ module Brisk
           :secret       => ENV['SESSION_SECRET']
     end
 
-    configure do
-      Mail.defaults do
-        delivery_method :file
-      end
+    Mail.defaults do
+      delivery_method :smtp, { :address   => "smtp.sendgrid.net",
+                               :port      => 587,
+                               :domain    => "harlembiospace.com",
+                               :user_name => "m@harlembiospace.com",
+                               :password  => "27I6aTDGZOM7ePdCGjJJiw",
+                               :authentication => 'plain',
+                               :enable_starttls_auto => true }
     end
 
     use Rack::Deflater
